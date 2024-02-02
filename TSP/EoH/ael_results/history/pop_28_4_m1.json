@@ -1,0 +1,14 @@
+{
+     "parent1": {
+          "algorithm": "new_distance_matrix, perturb_nodes",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    tour_difference = (local_opt_tour - global_opt_tour) ** 2\n    average_edge_usage = np.mean(edge_n_used, axis=1)\n    weighted_factor = 0.5 \n    inverse_distance_matrix = 1 / (distance_matrix + 1)\n    \n    new_distance_matrix = distance_matrix + (tour_difference + average_edge_usage * np.random.rand(distance_matrix.shape[0]) + inverse_distance_matrix) * weighted_factor\n    perturb_nodes = np.argsort(np.maximum(np.max(edge_n_used, axis=1), np.max(new_distance_matrix, axis=1)))\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.04594,
+          "other_inf": null
+     },
+     "offspring": {
+          "algorithm": "\nDescribe the new algorithm:\nThe new algorithm aims to update the distance matrix and sort the top nodes to perturb to avoid being trapped in the local optimum tour, ultimately finding a tour with minimized total distance. It achieves this by incorporating a new perturbation criterion based on the difference between the local and global optimum tour lengths, average edge usage, and the inverse of the distance matrix. The top nodes are then sorted based on the maximum edge usage and the maximum distance in the updated distance matrix.\n\nCode:\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    tour_difference = (local_opt_tour - global_opt_tour) ** 2\n    average_edge_usage = np.mean(edge_n_used, axis=1)\n    inverse_distance_matrix = 1 / (distance_matrix + 1)\n    weighted_factor = 0.5\n    perturbation_criterion = tour_difference + average_edge_usage * np.random.rand(distance_matrix.shape[0]) + inverse_distance_matrix\n    \n    new_distance_matrix = distance_matrix + perturbation_criterion * weighted_factor\n    perturb_nodes = np.argsort(np.maximum(np.max(edge_n_used, axis=1), np.max(new_distance_matrix, axis=1)))\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.08675,
+          "other_inf": null
+     }
+}

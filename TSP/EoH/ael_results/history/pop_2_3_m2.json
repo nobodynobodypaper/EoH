@@ -1,0 +1,14 @@
+{
+     "parent1": {
+          "algorithm": "\nNew algorithm: Identify the edges with high distance in the local optimal tour and update their distances in the edge distance matrix to encourage using them again, thus promoting exploration of different routes, while scaling the update factor based on the inverse of the edge's distance.\n",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n    max_distance = np.max(edge_distance)\n    for i in range(len(local_opt_tour)-1):\n        start = local_opt_tour[i]\n        end = local_opt_tour[i+1]\n        updated_edge_distance[start][end] *= (1 + 1/edge_distance[start][end])\n    return updated_edge_distance",
+          "objective": 3.31888,
+          "other_inf": null
+     },
+     "offspring": {
+          "algorithm": "\nNew algorithm: Identify the edges with high number of use in the local optimal tour and update their distances in the edge distance matrix to encourage using other edges, thus promoting exploration of different routes, while scaling the update factor based on the edge's number of use.\n",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n    max_n_used = np.max(edge_n_used)\n    for i in range(len(local_opt_tour)-1):\n        start = local_opt_tour[i]\n        end = local_opt_tour[i+1]\n        updated_edge_distance[start][end] *= (1 + edge_n_used[start][end]/max_n_used)\n    return updated_edge_distance",
+          "objective": 3.45172,
+          "other_inf": null
+     }
+}

@@ -1,0 +1,14 @@
+{
+     "parent1": {
+          "algorithm": "Create a new algorithm that updates the distance matrix by taking the maximum of the exponential of the difference between local and global optimum tours, the product of the normalized edge usage, and a random factor, then sorts the nodes based on the maximum distance from the global optimum tour and minimum edge usage to determine the top nodes for perturbation.",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    tour_difference_exp = np.exp(local_opt_tour - global_opt_tour)\n    product_normalized_random = (edge_n_used / np.max(edge_n_used)) * np.random.rand(distance_matrix.shape[0])\n    \n    new_distance_matrix = distance_matrix + np.maximum(tour_difference_exp, product_normalized_random)\n    perturb_nodes = np.argsort(np.maximum(np.max(new_distance_matrix, axis=1), np.min(edge_n_used, axis=1)))\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 3.49348,
+          "other_inf": null
+     },
+     "offspring": {
+          "algorithm": "Create a new algorithm that updates the distance matrix by taking the maximum of the exponential of the difference between local and global optimum tours, the product of the normalized edge usage, and a random factor, then sorts the nodes based on the maximum distance from the global optimum tour and minimum edge usage to determine the top nodes for perturbation.",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    tour_difference_exp = np.exp(local_opt_tour - global_opt_tour)\n    product_normalized_random = (edge_n_used / np.max(edge_n_used)) * np.random.rand(distance_matrix.shape[0])\n    \n    new_distance_matrix = distance_matrix + np.clip(tour_difference_exp, 0, None) + np.clip(product_normalized_random, 0, None)\n    perturb_nodes = np.argsort(np.maximum(np.max(new_distance_matrix, axis=1), np.min(edge_n_used, axis=1)))\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 1.00799,
+          "other_inf": null
+     }
+}

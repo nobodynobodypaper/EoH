@@ -1,0 +1,14 @@
+{
+     "parent1": {
+          "algorithm": "\nThe new algorithm will update the edge distances in the edge distance matrix by adjusting the distances based on the frequency of edge usage and the distance of the edges, with a focus on balancing exploration and exploitation to improve search performance.\n",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n    \n    edge_count = np.zeros_like(edge_distance)\n    for i in range(len(local_opt_tour) - 1):\n        start = local_opt_tour[i]\n        end = local_opt_tour[i + 1]\n        edge_count[start][end] += 1\n        edge_count[end][start] += 1\n    \n    edge_n_used_max = np.max(edge_n_used)\n\n    for i in range(edge_distance.shape[0]):\n        for j in range(edge_distance.shape[1]):\n            if edge_count[i][j] > 0:\n                score_factor = (1 / (1 + edge_count[i][j])) + (edge_distance[i][j] / np.mean(edge_distance)) - (0.6 / edge_n_used_max) * edge_n_used[i][j]\n                updated_edge_distance[i][j] += score_factor * (1 + edge_count[i][j])\n\n    return updated_edge_distance",
+          "objective": 0.04546,
+          "other_inf": null
+     },
+     "offspring": {
+          "algorithm": "\nThe new algorithm will update the edge distances in the edge distance matrix by adjusting the distances based on the frequency of edge usage and the distance of the edges, with a focus on balancing exploration and exploitation to improve search performance. It will use a different score function to update the edge distances.\n",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n    \n    edge_count = np.zeros_like(edge_distance)\n    for i in range(len(local_opt_tour) - 1):\n        start = local_opt_tour[i]\n        end = local_opt_tour[i + 1]\n        edge_count[start][end] += 1\n        edge_count[end][start] += 1\n    \n    edge_n_used_max = np.max(edge_n_used)\n\n    for i in range(edge_distance.shape[0]):\n        for j in range(edge_distance.shape[1]):\n            if edge_count[i][j] > 0:\n                score_factor = (1 / (1 + edge_count[i][j])) + (edge_distance[i][j] / np.mean(edge_distance)) - (0.8 / edge_n_used_max) * edge_n_used[i][j]\n                updated_edge_distance[i][j] += score_factor * (1 + edge_count[i][j])\n\n    return updated_edge_distance",
+          "objective": 0.08981,
+          "other_inf": null
+     }
+}

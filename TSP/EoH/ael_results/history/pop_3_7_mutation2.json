@@ -1,0 +1,14 @@
+{
+     "parent2": {
+          "algorithm": "\nThe algorithm idea is to update the distance matrix by penalizing the distances between the nodes in the local optimal tour based on the number of times an edge is used in the global optimum tour, and then sort the nodes based on the penalty to identify the top nodes to perturb. The main steps include updating the distance matrix, calculating the penalty based on edge usage, sorting the nodes based on the penalty, and selecting the top nodes as perturb candidates.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    penalty_factor = 100  # Penalty factor for increasing penalty based on edge usage\n    new_distance_matrix = distance_matrix.copy()\n    for i in range(len(local_opt_tour)-1):\n        edge_penalty = edge_n_used[local_opt_tour[i], local_opt_tour[i+1]] * penalty_factor\n        new_distance_matrix[local_opt_tour[i], local_opt_tour[i+1]] += edge_penalty\n    edge_penalty = edge_n_used[local_opt_tour[-1], local_opt_tour[0]] * penalty_factor\n    new_distance_matrix[local_opt_tour[-1], local_opt_tour[0]] += edge_penalty\n\n    perturb_penalty = np.sum(new_distance_matrix, axis=1)  # Calculate the penalty for each node\n    perturb_nodes = np.argsort(perturb_penalty)  # Sort the nodes based on the penalty\n\n    return new_distance_matrix, perturb_nodes",
+          "objective": 1.09,
+          "first_obj": null
+     },
+     "offspring": {
+          "algorithm": "\nAlgorithm description:\nThe algorithm calculates the difference in distances between the local optimal tour and the global optimal tour for each node, updates the distance matrix, and then sorts the nodes based on the differences to identify the top nodes for perturbation.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    tour_difference = np.zeros(distance_matrix.shape[0])\n    for i in range(len(local_opt_tour)):\n        tour_difference[i] = np.abs(np.sum(distance_matrix[local_opt_tour[i], :]) - np.sum(distance_matrix[global_opt_tour[i], :]))\n    \n    new_distance_matrix = distance_matrix.copy()\n    for i in range(len(local_opt_tour)-1):\n        edge = (local_opt_tour[i], local_opt_tour[i+1])\n        new_distance_matrix[edge[0]][edge[1]] += edge_n_used[edge]\n        new_distance_matrix[edge[1]][edge[0]] += edge_n_used[edge]\n\n    perturb_nodes = np.argsort(tour_difference)\n\n    return new_distance_matrix, perturb_nodes",
+          "objective": 1.554,
+          "first_obj": null
+     }
+}

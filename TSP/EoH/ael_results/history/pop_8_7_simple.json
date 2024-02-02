@@ -1,0 +1,14 @@
+{
+     "parent1": {
+          "algorithm": "\nNew algorithm: Update the edge distances in the edge distance matrix by applying a cuckoo search-inspired method, where the update is determined by a combination of edge count, distance, usage, and a customized cuckoo function to promote global exploration and improved convergence.\n",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n    \n    edge_count = np.zeros_like(edge_distance)\n    for i in range(len(local_opt_tour) - 1):\n        start = local_opt_tour[i]\n        end = local_opt_tour[i + 1]\n        edge_count[start][end] += 1\n        edge_count[end][start] += 1\n    \n    edge_n_used_max = np.max(edge_n_used)\n    mean_edge_distance = np.mean(edge_distance)\n    \n    # Custom cuckoo search-inspired function\n    def cuckoo_function(x):\n        a = np.random.uniform(0, 1)\n        return (x * a) / (1 + x)  # Example function, can be customized\n        \n    for i in range(edge_distance.shape[0]):\n        for j in range(edge_distance.shape[1]):\n            if edge_count[i][j] > 0:\n                score_factor = (cuckoo_function(edge_count[i][j]) / edge_count[i][j]) + (edge_distance[i][j] / mean_edge_distance) - (0.6 / edge_n_used_max) * edge_n_used[i][j]\n                updated_edge_distance[i][j] += score_factor * (1 + edge_count[i][j])\n\n    return updated_edge_distance",
+          "objective": 0.01453,
+          "other_inf": null
+     },
+     "offspring": {
+          "algorithm": "\nNew algorithm: Update the edge distances in the edge distance matrix by applying a cuckoo search-inspired method, where the update is determined by a combination of edge count, distance, usage, and a customized cuckoo function to promote global exploration and improved convergence.\n",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n\n    edge_count = np.zeros_like(edge_distance)\n    for i in range(len(local_opt_tour) - 1):\n        start = local_opt_tour[i]\n        end = local_opt_tour[i + 1]\n        edge_count[start][end] += 1\n        edge_count[end][start] += 1\n\n    edge_n_used_max = np.max(edge_n_used)\n    mean_edge_distance = np.mean(edge_distance)\n\n    for i in range(edge_distance.shape[0]):\n        for j in range(edge_distance.shape[1]):\n            if edge_count[i][j] > 0:\n                score_factor = (cuckoo_function(edge_count[i][j]) / edge_count[i][j]) + (edge_distance[i][j] / mean_edge_distance) - (0.6 / edge_n_used_max) * edge_n_used[i][j]\n                updated_edge_distance[i][j] += score_factor * (1 + edge_count[i][j])\n\n    return updated_edge_distance",
+          "objective": 10000000000.0,
+          "other_inf": null
+     }
+}

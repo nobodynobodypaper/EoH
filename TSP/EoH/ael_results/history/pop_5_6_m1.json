@@ -1,0 +1,14 @@
+{
+     "parent1": {
+          "algorithm": "\nCreate a new algorithm that updates the distance matrix by incorporating a scaled random perturbation, penalizes edges used in the local optimal tour, and sorts the nodes based on the combination of edge usage and the total distance difference.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    # Update the distance matrix by incorporating a scaled random perturbation\n    scale = 0.5\n    perturbation = np.random.uniform(-scale, scale, size=distance_matrix.shape)\n    new_distance_matrix = distance_matrix + perturbation\n    \n    # Penalize edges used in the local optimal tour\n    penalty = 1.1\n    for i in range(len(local_opt_tour)-1):\n        new_distance_matrix[local_opt_tour[i], local_opt_tour[i+1]] *= penalty\n    \n    # Sort the nodes based on the combination of edge usage and the total distance difference\n    total_distance_difference = np.sum(np.abs(new_distance_matrix - distance_matrix), axis=1)\n    combined_metric = np.sum(new_distance_matrix * edge_n_used, axis=1) * total_distance_difference\n    perturb_nodes = np.argsort(combined_metric)\n\n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.08252,
+          "other_inf": null
+     },
+     "offspring": {
+          "algorithm": "\nCreate a new algorithm that incorporates a multidimensional scaling technique to update the distance matrix, penalizes edges used in the local optimal tour based on their frequency, and sorts the nodes based on the combination of edge usage and the total distance difference in order to minimize the total distance of the tour.\n",
+          "code": "import numpy as np\nfrom sklearn.manifold import MDS\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    # Incorporate a multidimensional scaling technique to update the distance matrix\n    mds = MDS(n_components=2, dissimilarity=\"precomputed\")\n    new_distance_matrix = mds.fit_transform(distance_matrix)\n    \n    # Penalize edges used in the local optimal tour based on their frequency\n    penalty = 1.1\n    edge_frequency = np.sum(edge_n_used, axis=1)\n    for i in range(len(local_opt_tour)-1):\n        new_distance_matrix[local_opt_tour[i], local_opt_tour[i+1]] *= penalty*edge_frequency[local_opt_tour[i]]\n\n    # Sort the nodes based on the combination of edge usage and the total distance difference\n    total_distance_difference = np.sum(np.abs(new_distance_matrix - distance_matrix), axis=1)\n    combined_metric = np.sum(new_distance_matrix * edge_n_used, axis=1) * total_distance_difference\n    perturb_nodes = np.argsort(combined_metric)\n\n    return new_distance_matrix, perturb_nodes",
+          "objective": 10000000000.0,
+          "other_inf": null
+     }
+}

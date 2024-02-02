@@ -1,0 +1,14 @@
+{
+     "parent1": {
+          "algorithm": "Create a new algorithm that updates the distance matrix by incorporating the exponential of the difference between local and global optimum tours and edge usage, and sorts the nodes based on the exponential of the maximum distance from the global optimum tour and a square root of edge usage to identify the top nodes for perturbation.",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    # Update the distance matrix by incorporating the exponential of the difference between local and global optimum tours and edge usage\n    exponential_score = np.exp((local_opt_tour - global_opt_tour)) * edge_n_used\n    new_distance_matrix = exponential_score + distance_matrix\n    \n    # Sort the nodes based on the exponential of the maximum distance from the global optimum tour and square root of edge usage\n    weighted_exponential = np.exp(np.max(new_distance_matrix, axis=1)) * np.sqrt(np.min(edge_n_used, axis=1))\n    perturb_nodes = np.argsort(weighted_exponential)\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.1438,
+          "other_inf": null
+     },
+     "offspring": {
+          "algorithm": "\nNew algorithm description: Create a new algorithm that updates the distance matrix by incorporating a customized score function and sorts the nodes based on the modified score function to identify the top nodes for perturbation.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    # Update the distance matrix using a customized score function\n    customized_score = np.sqrt(local_opt_tour - global_opt_tour) * np.log(edge_n_used)\n    new_distance_matrix = customized_score + distance_matrix\n    \n    # Sort the nodes based on the modified score function\n    modified_score = np.exp(np.max(new_distance_matrix, axis=1)) * np.sqrt(np.min(edge_n_used, axis=1))\n    perturb_nodes = np.argsort(modified_score)\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 3.49348,
+          "other_inf": null
+     }
+}

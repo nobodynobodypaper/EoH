@@ -1,0 +1,14 @@
+{
+     "parent1": {
+          "algorithm": "Create a new algorithm to identify the nodes with the highest impact on the edge usage, update the distance matrix based on the edge usage, and sort the nodes based on the impact for perturbation to avoid local optimum and minimize total distance.",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    # Identify nodes with the highest impact on edge usage\n    impact_nodes = np.argmax(edge_n_used, axis=1)\n    \n    # Update distance matrix based on edge usage\n    new_distance_matrix = distance_matrix * (1 + edge_n_used)\n    \n    # Sort nodes based on impact for perturbation\n    perturb_nodes = np.argsort(impact_nodes)[::-1]\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.17128,
+          "other_inf": null
+     },
+     "offspring": {
+          "algorithm": "\nNew algorithm description: Create a modified algorithm to identify the nodes with potential impact on the local optimum tour, update the distance matrix based on the edge usage and the local optimum tour, and sort the nodes based on the potential impact for perturbation to improve the total distance.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    # Identify the nodes with potential impact on the local optimum tour\n    potential_impact_nodes = np.argmax(edge_n_used + (distance_matrix[local_opt_tour, 1:] - distance_matrix[local_opt_tour, :-1]), axis=1)\n    \n    # Update distance matrix based on edge usage and local optimum tour\n    new_distance_matrix = distance_matrix * (1 + edge_n_used) + (distance_matrix[local_opt_tour, 1:] - distance_matrix[local_opt_tour, :-1])\n    \n    # Sort nodes based on potential impact for perturbation\n    perturb_nodes = np.argsort(potential_impact_nodes)[::-1]\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 10000000000.0,
+          "other_inf": null
+     }
+}

@@ -1,0 +1,14 @@
+{
+     "parent1": {
+          "algorithm": "\nCreate a new algorithm that updates the distance matrix based on a modified form of the unique scoring function incorporating local optimum, global optimum, and edge usage by applying the following formula: new_distance_matrix = distance_matrix + (edge_n_used * 2) + (local_opt_tour - global_opt_tour). Sort the nodes using a modified scoring function for perturbation based on the sum of values in the updated distance matrix.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    # Update the distance matrix based on a modified form of the unique scoring function\n    new_distance_matrix = distance_matrix + (edge_n_used * 2) + (local_opt_tour - global_opt_tour)\n    \n    # Sort the nodes using a modified scoring function for perturbation\n    perturb_nodes = np.argsort(np.sum(new_distance_matrix, axis=1))\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.14681,
+          "other_inf": null
+     },
+     "offspring": {
+          "algorithm": "\nCreate a new algorithm that updates the distance matrix based on a modified form of the unique scoring function by applying the following formula: \nnew_distance_matrix = distance_matrix + (edge_n_used * 3) + ((local_opt_tour - global_opt_tour) * 2).\nSort the nodes using a modified scoring function for perturbation based on the maximum values in the updated distance matrix.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    # Update the distance matrix based on a modified form of the unique scoring function\n    new_distance_matrix = distance_matrix + (edge_n_used * 3) + ((local_opt_tour - global_opt_tour) * 2)\n    \n    # Sort the nodes using a modified scoring function for perturbation\n    perturb_nodes = np.argsort(-np.max(new_distance_matrix, axis=1))\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.34438,
+          "other_inf": null
+     }
+}

@@ -1,0 +1,38 @@
+{
+     "parent1": {
+          "algorithm": "\nCreate a new algorithm that updates the distance matrix by computing a combination of the average edge usage, the difference between local and global optimum tours, and the product of the standard deviation of edge usage and a random factor, then sorts the nodes based on the maximum edge usage and minimum distance from the global optimum tour to determine the top nodes for perturbation.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    average_edge_usage = np.mean(edge_n_used, axis=1)\n    product_std_dev_random = np.std(edge_n_used, axis=1) * np.random.rand(distance_matrix.shape[0])\n    \n    new_distance_matrix = distance_matrix + (0.4 * average_edge_usage) + (0.4 * (local_opt_tour - global_opt_tour)) + (0.2 * product_std_dev_random)\n    \n    max_edge_usage = np.max(edge_n_used, axis=1)\n    min_global_distance = np.min(new_distance_matrix, axis=1)\n    perturb_nodes = np.argsort(np.maximum(max_edge_usage, min_global_distance))\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.06132,
+          "other_inf": null
+     },
+     "parent2": {
+          "algorithm": "\nCreate a new algorithm that updates the distance matrix by computing a combination of the average edge usage, the difference between local and global optimum tours, and the product of the standard deviation of edge usage and a random factor, then sorts the nodes based on the maximum edge usage and minimum distance from the global optimum tour to determine the top nodes for perturbation.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    average_edge_usage = np.mean(edge_n_used, axis=1)\n    product_std_dev_random = np.std(edge_n_used, axis=1) * np.random.rand(distance_matrix.shape[0])\n    \n    new_distance_matrix = distance_matrix + (0.4 * average_edge_usage) + (0.4 * (local_opt_tour - global_opt_tour)) + (0.2 * product_std_dev_random)\n    \n    max_edge_usage = np.max(edge_n_used, axis=1)\n    min_global_distance = np.min(new_distance_matrix, axis=1)\n    perturb_nodes = np.argsort(np.maximum(max_edge_usage, min_global_distance))\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.06132,
+          "other_inf": null
+     },
+     "parent3": {
+          "algorithm": "\nCreate a novel algorithm that updates the distance matrix by computing a combination of the normalized edge usage, the weighted average of the difference between local and global optimum tours, and additional randomness, then sorts the nodes based on the maximum normalized edge usage and minimum distance from the global optimum tour to determine the top nodes for perturbation.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    combined_metric = (0.5 * (edge_n_used / np.max(edge_n_used))) + (0.4 * (local_opt_tour - global_opt_tour)) + (0.1 * np.random.rand(distance_matrix.shape[0], distance_matrix.shape[1]))\n    new_distance_matrix = distance_matrix + combined_metric\n    perturb_nodes = np.argsort(np.maximum(np.max(edge_n_used, axis=1), np.min(new_distance_matrix, axis=1)))\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.05104,
+          "other_inf": null
+     },
+     "parent4": {
+          "algorithm": "\nCreate a novel algorithm that updates the distance matrix by computing a combination of the normalized edge usage, the weighted average of the difference between local and global optimum tours, and additional randomness, then sorts the nodes based on the maximum normalized edge usage and minimum distance from the global optimum tour to determine the top nodes for perturbation.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    combined_metric = (0.5 * (edge_n_used / np.max(edge_n_used))) + (0.4 * (local_opt_tour - global_opt_tour)) + (0.1 * np.random.rand(distance_matrix.shape[0], distance_matrix.shape[1]))\n    new_distance_matrix = distance_matrix + combined_metric\n    perturb_nodes = np.argsort(np.maximum(np.max(edge_n_used, axis=1), np.min(new_distance_matrix, axis=1)))\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.05104,
+          "other_inf": null
+     },
+     "parent5": {
+          "algorithm": "\nCreate a novel algorithm that updates the distance matrix by computing a combination of the normalized edge usage, the weighted average of the difference between local and global optimum tours, and additional randomness, then sorts the nodes based on the maximum normalized edge usage and minimum distance from the global optimum tour to determine the top nodes for perturbation.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    combined_metric = (0.5 * (edge_n_used / np.max(edge_n_used))) + (0.4 * (local_opt_tour - global_opt_tour)) + (0.1 * np.random.rand(distance_matrix.shape[0], distance_matrix.shape[1]))\n    new_distance_matrix = distance_matrix + combined_metric\n    perturb_nodes = np.argsort(np.maximum(np.max(edge_n_used, axis=1), np.min(new_distance_matrix, axis=1)))\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.05104,
+          "other_inf": null
+     },
+     "offspring": {
+          "algorithm": "\nCreate a novel algorithm that updates the distance matrix by computing the maximum edge usage, the difference between local and global optimum tours, and the sum of the normalized edge usage, then sorts the nodes based on the maximum edge usage and minimum distance from the global optimum tour to determine the top nodes for perturbation.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    max_edge_usage = np.max(edge_n_used, axis=1)\n    difference_opt_tours = local_opt_tour - global_opt_tour\n    sum_normalized_edge_usage = np.sum(edge_n_used / np.max(edge_n_used), axis=1)\n    \n    new_distance_matrix = distance_matrix + max_edge_usage + difference_opt_tours + sum_normalized_edge_usage\n    perturb_nodes = np.argsort(np.maximum(max_edge_usage, np.min(new_distance_matrix, axis=1)))\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.15192,
+          "other_inf": null
+     }
+}

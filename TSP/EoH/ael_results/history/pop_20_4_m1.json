@@ -1,0 +1,14 @@
+{
+     "parent1": {
+          "algorithm": "\nCreate an algorithm that updates the distance matrix by using a combination of edge usage, the difference between local and global optimum tours, and a weighted random factor, then sorts the nodes based on the maximum edge usage and the minimum distance from the global optimum tour to identify the top nodes for perturbation.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    weighted_random_factor = np.random.rand(distance_matrix.shape[0], distance_matrix.shape[1]) * 0.2\n    update_factor = (0.4 * edge_n_used) + (0.4 * (local_opt_tour - global_opt_tour)) + weighted_random_factor\n    new_distance_matrix = update_factor + distance_matrix\n    \n    max_edge_usage = np.max(edge_n_used, axis=1)\n    min_global_distance = np.min(new_distance_matrix, axis=1)\n    perturb_nodes = np.argsort(np.maximum(max_edge_usage, min_global_distance))\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.06261,
+          "other_inf": null
+     },
+     "offspring": {
+          "algorithm": "\n\nCreate an algorithm that updates the distance matrix by considering a combination of edge usage, the difference between local and global optimum tours, and a weighted random factor, then sorts the nodes based on the maximum edge usage and the minimum distance from the global optimum tour to identify the top nodes for perturbation.\n\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    weighted_random_factor = np.random.rand(distance_matrix.shape[0], distance_matrix.shape[1]) * 0.2\n    update_factor = (0.3 * edge_n_used) + (0.3 * (local_opt_tour - global_opt_tour)) + weighted_random_factor\n    new_distance_matrix = update_factor + distance_matrix\n    \n    max_edge_usage = np.max(edge_n_used, axis=1)\n    min_global_distance = np.min(new_distance_matrix, axis=1)\n    perturb_nodes = np.argsort(np.maximum(max_edge_usage, min_global_distance))\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.09131,
+          "other_inf": null
+     }
+}

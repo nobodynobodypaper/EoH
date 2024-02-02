@@ -1,0 +1,14 @@
+{
+     "parent1": {
+          "algorithm": "Update the distance matrix by scaling the edge usage with a random factor, incorporate the difference between the local and global optimum tour by adding it to the distance matrix, and sort the nodes based on the product of edge usage and the total distance difference to find the top ones to perturb.",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    factor = np.random.rand()  # Generate a random scaling factor\n    scaled_edge_usage = edge_n_used * factor\n    new_distance_matrix = distance_matrix + scaled_edge_usage - (local_opt_tour - global_opt_tour)\n    perturb_nodes = np.argsort(np.sum(new_distance_matrix * edge_n_used, axis=1))  # Sort the nodes based on the product of edge usage and total distance difference\n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.11079,
+          "other_inf": null
+     },
+     "offspring": {
+          "algorithm": "\nNew algorithm description: Update the distance matrix by incorporating the difference between the local and global optimum tour, and sort the nodes based on the product of edge usage and the total distance difference to find the top ones to perturb.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    new_distance_matrix = distance_matrix - (local_opt_tour - global_opt_tour)\n    perturb_nodes = np.argsort(np.sum(new_distance_matrix * edge_n_used, axis=1))  # Sort the nodes based on the product of edge usage and total distance difference\n    return new_distance_matrix, perturb_nodes",
+          "objective": 3.49348,
+          "other_inf": null
+     }
+}

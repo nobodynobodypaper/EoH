@@ -1,0 +1,14 @@
+{
+     "parent1": {
+          "algorithm": "\nCreate a new algorithm that updates the distance matrix by combining edge usage and the difference between local and global optimum tours, and then sorts the nodes based on the maximum edge usage and the minimum distance from the global optimum tour to identify the top nodes for perturbation.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    unique_score = (local_opt_tour - global_opt_tour)\n    \n    new_distance_matrix = distance_matrix + (0.5 * edge_n_used) + unique_score\n    \n    perturb_nodes = np.argsort(np.maximum(np.max(edge_n_used, axis=1), np.min(new_distance_matrix, axis=1)))\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.06267,
+          "other_inf": null
+     },
+     "offspring": {
+          "algorithm": "\nCreate a new algorithm that updates the distance matrix by combining edge usage, the difference between local and global optimum tours, and the inverse of the distance from the global optimum tour, and then sorts the nodes based on the maximum edge usage and the minimum combined score to identify the top nodes for perturbation.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    unique_score = (local_opt_tour - global_opt_tour)\n    inv_global_dist = 1 / global_opt_tour\n    new_distance_matrix = distance_matrix + (0.5 * edge_n_used) + unique_score + inv_global_dist\n    combined_score = np.maximum(np.max(edge_n_used, axis=1), np.min(new_distance_matrix, axis=1))\n    perturb_nodes = np.argsort(combined_score)\n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.0944,
+          "other_inf": null
+     }
+}

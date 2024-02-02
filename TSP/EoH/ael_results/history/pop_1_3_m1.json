@@ -1,0 +1,14 @@
+{
+     "parent1": {
+          "algorithm": "\nThe new algorithm will use the local optimal tour and the edge_n_used matrix to update the edge distance matrix by increasing the distances of edges used frequently in the local optimal tour, in order to explore alternative routes and avoid getting trapped in the local optimum.\n}\n\n```python\nimport numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n    \n    max_edge_usage = np.max(edge_n_used)\n    for i in range(len(local_opt_tour)):\n        city1 = local_opt_tour[i]\n        city2 = local_opt_tour[(i + 1) % len(local_opt_tour)]\n        if edge_n_used[city1, city2] == max_edge_usage:\n            updated_edge_distance[city1, city2] *= 1.5\n    \n    return updated_edge_distance\n",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n    \n    max_edge_usage = np.max(edge_n_used)\n    for i in range(len(local_opt_tour)):\n        city1 = local_opt_tour[i]\n        city2 = local_opt_tour[(i + 1) % len(local_opt_tour)]\n        if edge_n_used[city1, city2] == max_edge_usage:\n            updated_edge_distance[city1, city2] *= 1.5\n    \n    return updated_edge_distance",
+          "objective": 3.06007,
+          "other_inf": null
+     },
+     "offspring": {
+          "algorithm": "\nThe new algorithm will update the edge distance matrix by decreasing the distances of edges that are not frequently used in the local optimal tour, in order to encourage exploration of alternative routes and avoid being trapped in the local optimum.\n",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n    \n    min_edge_usage = np.min(edge_n_used)\n    for i in range(len(edge_distance)):\n        for j in range(len(edge_distance[0])):\n            if edge_n_used[i, j] < min_edge_usage:\n                updated_edge_distance[i, j] *= 0.8\n    \n    return updated_edge_distance",
+          "objective": 3.49348,
+          "other_inf": null
+     }
+}

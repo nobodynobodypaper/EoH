@@ -1,0 +1,14 @@
+{
+     "parent1": {
+          "algorithm": "\nThe algorithm idea is to update the distance matrix by adding a penalty to the distances between the nodes in the local optimum tour, and then sort the nodes based on the penalty to identify the top nodes to perturb. The main steps include updating the distance matrix, calculating the penalty, sorting the nodes based on the penalty, and selecting the top nodes as perturb candidates.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    penalty = 1000  # Penalty for edges in the local optimum tour\n    new_distance_matrix = distance_matrix.copy()\n    for i in range(len(local_opt_tour)-1):\n        new_distance_matrix[local_opt_tour[i], local_opt_tour[i+1]] += penalty\n    new_distance_matrix[local_opt_tour[-1], local_opt_tour[0]] += penalty\n\n    perturb_penalty = np.sum(new_distance_matrix, axis=1)  # Calculate the penalty for each node\n    perturb_nodes = np.argsort(perturb_penalty)  # Sort the nodes based on the penalty\n\n    return new_distance_matrix, perturb_nodes",
+          "objective": 3.733,
+          "first_obj": null
+     },
+     "offspring": {
+          "algorithm": "\nThe algorithm idea is to update the distance matrix by considering the nodes that are not in the local optimum tour or global optimum tour, then calculate the impact of perturbing each node on the total distance, and finally sort the nodes based on their impact to find the top ones to perturb to avoid being trapped in the local optimum tour.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    new_distance_matrix = np.copy(distance_matrix)\n    nodes_not_in_tour = np.setdiff1d(np.arange(distance_matrix.shape[0]), local_opt_tour)\n    \n    impact = np.zeros(distance_matrix.shape[0])\n    for node in nodes_not_in_tour:\n        temp_local_opt_tour = local_opt_tour.copy()\n        temp_local_opt_tour[-1] = node\n        temp_local_opt_tour.append(local_opt_tour[0])  # Connect the last node to the first node\n        impact[node] = calculate_total_distance(new_distance_matrix, temp_local_opt_tour)\n    \n    perturb_nodes = np.argsort(impact)\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 4.301,
+          "first_obj": null
+     }
+}

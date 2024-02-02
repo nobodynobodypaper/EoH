@@ -1,0 +1,14 @@
+{
+     "parent1": {
+          "algorithm": "\nNew algorithm: The strategy is to identify the edges in the local optimal tour that are frequently used and update their distances in the edge distance matrix to discourage using them again, thereby guiding the search towards a better solution with a more aggressive update by squaring the edge count.\n",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n    edge_count = np.ones_like(edge_distance)\n\n    for i in range(len(local_opt_tour) - 1):\n        start = local_opt_tour[i]\n        end = local_opt_tour[i + 1]\n        edge_count[start][end] += 1\n        edge_count[end][start] += 1\n\n    updated_edge_distance *= (1 + (edge_count ** 2) / edge_n_used)\n\n    return updated_edge_distance",
+          "objective": 0.18055,
+          "other_inf": null
+     },
+     "offspring": {
+          "algorithm": "\nNew algorithm: The strategy is to identify the edges in the local optimal tour that are frequently used and update their distances in the edge distance matrix to discourage using them again, thereby guiding the search towards a better solution with a more aggressive update by squaring the edge count.\n",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n    \n    for i in range(len(local_opt_tour) - 1):\n        start = local_opt_tour[i]\n        end = local_opt_tour[i + 1]\n        updated_edge_distance[start][end] *= 1.5\n        updated_edge_distance[end][start] *= 1.5\n\n    return updated_edge_distance",
+          "objective": 2.56888,
+          "other_inf": null
+     }
+}

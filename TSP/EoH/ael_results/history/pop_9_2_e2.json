@@ -1,0 +1,38 @@
+{
+     "parent1": {
+          "algorithm": "\nNew algorithm: Update the edge distances in the edge distance matrix by incorporating a pheromone-like effect, where the update is determined by edge count, distance, and usage, with the addition of a decay factor to avoid stagnation and promote exploration.\n",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n    \n    edge_count = np.zeros_like(edge_distance)\n    for i in range(len(local_opt_tour) - 1):\n        start = local_opt_tour[i]\n        end = local_opt_tour[i + 1]\n        edge_count[start][end] += 1\n        edge_count[end][start] += 1\n    \n    edge_n_used_max = np.max(edge_n_used)\n    decay_factor = 0.1\n    for i in range(edge_distance.shape[0]):\n        for j in range(edge_distance.shape[1]):\n            if edge_count[i][j] > 0:\n                noise_factor = (np.random.uniform(0.7, 1.3) / edge_count[i][j]) + (edge_distance[i][j] / np.mean(edge_distance)) - (0.3 / edge_n_used_max) * edge_n_used[i][j]\n                updated_edge_distance[i][j] += noise_factor * (1 + edge_count[i][j]) - decay_factor * updated_edge_distance[i][j]\n\n    return updated_edge_distance",
+          "objective": 0.01633,
+          "other_inf": null
+     },
+     "parent2": {
+          "algorithm": "\nNew algorithm: Update the edge distances in the edge distance matrix by leveraging a chaos-based approach that introduces chaotic equations to modify the edge distances, promoting a more diverse exploration of the solution space.\n",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n    \n    edge_count = np.zeros_like(edge_distance)\n    for i in range(len(local_opt_tour) - 1):\n        start = local_opt_tour[i]\n        end = local_opt_tour[i + 1]\n        edge_count[start][end] += 1\n        edge_count[end][start] += 1\n    \n    for i in range(edge_distance.shape[0]):\n        for j in range(edge_distance.shape[1]):\n            if edge_count[i][j] > 0:\n                chaos_factor = np.sin(edge_count[i][j]) * np.log(1 + edge_distance[i][j]) / np.sqrt(np.tanh(edge_n_used[i][j]))\n                updated_edge_distance[i][j] += chaos_factor * edge_count[i][j]\n\n    return updated_edge_distance",
+          "objective": 0.82726,
+          "other_inf": null
+     },
+     "parent3": {
+          "algorithm": "\nNew algorithm: Update the edge distances in the edge distance matrix by incorporating a pheromone-like effect, where the update is determined by edge count, distance, and usage, with the addition of a decay factor to avoid stagnation and promote exploration.\n",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n    \n    edge_count = np.zeros_like(edge_distance)\n    for i in range(len(local_opt_tour) - 1):\n        start = local_opt_tour[i]\n        end = local_opt_tour[i + 1]\n        edge_count[start][end] += 1\n        edge_count[end][start] += 1\n    \n    edge_n_used_max = np.max(edge_n_used)\n    decay_factor = 0.1\n    for i in range(edge_distance.shape[0]):\n        for j in range(edge_distance.shape[1]):\n            if edge_count[i][j] > 0:\n                noise_factor = (np.random.uniform(0.7, 1.3) / edge_count[i][j]) + (edge_distance[i][j] / np.mean(edge_distance)) - (0.3 / edge_n_used_max) * edge_n_used[i][j]\n                updated_edge_distance[i][j] += noise_factor * (1 + edge_count[i][j]) - decay_factor * updated_edge_distance[i][j]\n\n    return updated_edge_distance",
+          "objective": 0.01633,
+          "other_inf": null
+     },
+     "parent4": {
+          "algorithm": "\nNew algorithm: Update the edge distances in the edge distance matrix by applying a combination of the reciprocal of the edge count, the mean edge distance, and a penalty for overused edges to encourage global exploration and discourage overexploitation for improved search performance.",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n    \n    edge_count = np.zeros_like(edge_distance)\n    for i in range(len(local_opt_tour) - 1):\n        start = local_opt_tour[i]\n        end = local_opt_tour[i + 1]\n        edge_count[start][end] += 1\n        edge_count[end][start] += 1\n    \n    mean_edge_distance = np.mean(edge_distance)\n    max_edge_usage = np.max(edge_n_used)\n    \n    for i in range(edge_distance.shape[0]):\n        for j in range(edge_distance.shape[1]):\n            if edge_count[i][j] > 0:\n                penalty_factor = (1 / edge_count[i][j]) - (0.5 * edge_n_used[i][j] / max_edge_usage)\n                updated_edge_distance[i][j] += penalty_factor\n\n    return updated_edge_distance",
+          "objective": 0.02266,
+          "other_inf": null
+     },
+     "parent5": {
+          "algorithm": "\nNew algorithm: Update the edge distances in the edge distance matrix by leveraging a chaos-based approach that introduces chaotic equations to modify the edge distances, promoting a more diverse exploration of the solution space.\n",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n    \n    edge_count = np.zeros_like(edge_distance)\n    for i in range(len(local_opt_tour) - 1):\n        start = local_opt_tour[i]\n        end = local_opt_tour[i + 1]\n        edge_count[start][end] += 1\n        edge_count[end][start] += 1\n    \n    for i in range(edge_distance.shape[0]):\n        for j in range(edge_distance.shape[1]):\n            if edge_count[i][j] > 0:\n                chaos_factor = np.sin(edge_count[i][j]) * np.log(1 + edge_distance[i][j]) / np.sqrt(np.tanh(edge_n_used[i][j]))\n                updated_edge_distance[i][j] += chaos_factor * edge_count[i][j]\n\n    return updated_edge_distance",
+          "objective": 0.82726,
+          "other_inf": null
+     },
+     "offspring": {
+          "algorithm": "updated_edge_distance = multi_agent_optimization(edge_distance, local_opt_tour, edge_n_used)",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    # Your implementation for the new algorithm here\n    # ...\n    return updated_edge_distance",
+          "objective": 10000000000.0,
+          "other_inf": null
+     }
+}

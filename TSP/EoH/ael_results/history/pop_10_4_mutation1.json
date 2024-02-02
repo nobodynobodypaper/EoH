@@ -1,0 +1,14 @@
+{
+     "parent1": {
+          "algorithm": "\nThe algorithm idea is to identify edges that are commonly used in the local optimal tour and update the distance matrix by penalizing these edges based on their frequency of use. Then, sort the nodes based on the penalty to determine the top nodes to perturb in order to avoid being trapped in the local optimum tour.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    penalty = np.zeros(distance_matrix.shape)\n    for i in range(len(local_opt_tour) - 1):\n        start = local_opt_tour[i]\n        end = local_opt_tour[i + 1]\n        penalty[start][end] += 1\n        penalty[end][start] += 1\n    penalty = np.divide(penalty, edge_n_used, out=np.zeros_like(penalty), where=edge_n_used != 0)\n    new_distance_matrix = distance_matrix + penalty * edge_n_used\n    perturb_nodes = np.argsort(-penalty.sum(axis=1))\n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.474,
+          "first_obj": null
+     },
+     "offspring": {
+          "algorithm": "\nThe algorithm idea is to first calculate the potential benefit of perturbing each node by simulating the impact on the total distance. Then, update the distance matrix by penalizing the edges based on their frequency of use and the potential benefit of perturbing each node. Finally, sort the nodes based on the penalty and perturb benefit to determine the top nodes to perturb in order to avoid being trapped in the local optimum tour.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    benefit = np.sum((distance_matrix - distance_matrix[local_opt_tour, np.roll(local_opt_tour, -1)]) * (edge_n_used[local_opt_tour, np.roll(local_opt_tour, -1)] - 1), axis=1)\n    penalty = np.zeros(distance_matrix.shape)\n    for i in range(len(local_opt_tour) - 1):\n        start = local_opt_tour[i]\n        end = local_opt_tour[i + 1]\n        penalty[start][end] += 1\n        penalty[end][start] += 1\n    penalty = np.divide(penalty, edge_n_used, out=np.zeros_like(penalty), where=edge_n_used != 0)\n    new_distance_matrix = distance_matrix + penalty * edge_n_used + benefit\n    perturb_nodes = np.argsort(-penalty.sum(axis=1) + benefit)[::-1]\n    return new_distance_matrix, perturb_nodes",
+          "objective": 1.413,
+          "first_obj": null
+     }
+}

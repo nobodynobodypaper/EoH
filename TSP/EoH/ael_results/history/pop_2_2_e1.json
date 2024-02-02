@@ -1,0 +1,38 @@
+{
+     "parent1": {
+          "algorithm": "\nNew algorithm: Modify the edge distances randomly along the local optimal route to escape from the local optimum and move towards a global optimum, by perturbing the distances of the edges used in the local optimal tour.\n\nCode:\nimport numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n    \n    for i in range(len(local_opt_tour) - 1):\n        start_node = local_opt_tour[i]\n        end_node = local_opt_tour[i + 1]\n        edge_index = edge_n_used[start_node][end_node]\n        perturbation_factor = np.random.uniform(0.9, 1.1)  # Randomly perturb the edge distance\n        updated_edge_distance[start_node][end_node] *= perturbation_factor\n    \n    return updated_edge_distance\n",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n\n    for i in range(len(local_opt_tour) - 1):\n        start_node = local_opt_tour[i]\n        end_node = local_opt_tour[i + 1]\n        perturbation_factor = np.random.uniform(0.9, 1.1)  # Randomly perturb the edge distance\n        updated_edge_distance[start_node][end_node] *= perturbation_factor\n\n    return updated_edge_distance",
+          "objective": 2.61658,
+          "other_inf": null
+     },
+     "parent2": {
+          "algorithm": "\nNew algorithm: The strategy is to identify the edges in the local optimal tour that are frequently used and update their distances in the edge distance matrix to discourage using them again, thereby guiding the search towards a better solution.\n",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n    edge_count = np.ones_like(edge_distance)\n\n    for i in range(len(local_opt_tour) - 1):\n        start = local_opt_tour[i]\n        end = local_opt_tour[i + 1]\n        edge_count[start][end] += 1\n        edge_count[end][start] += 1\n\n    updated_edge_distance *= (1 + edge_count / edge_n_used)\n\n    return updated_edge_distance",
+          "objective": 0.24853,
+          "other_inf": null
+     },
+     "parent3": {
+          "algorithm": "\nNew algorithm: Modify the edge distances randomly along the local optimal route to escape from the local optimum and move towards a global optimum, by perturbing the distances of the edges used in the local optimal tour.\n\nCode:\nimport numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n    \n    for i in range(len(local_opt_tour) - 1):\n        start_node = local_opt_tour[i]\n        end_node = local_opt_tour[i + 1]\n        edge_index = edge_n_used[start_node][end_node]\n        perturbation_factor = np.random.uniform(0.9, 1.1)  # Randomly perturb the edge distance\n        updated_edge_distance[start_node][end_node] *= perturbation_factor\n    \n    return updated_edge_distance\n",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n\n    for i in range(len(local_opt_tour) - 1):\n        start_node = local_opt_tour[i]\n        end_node = local_opt_tour[i + 1]\n        perturbation_factor = np.random.uniform(0.9, 1.1)  # Randomly perturb the edge distance\n        updated_edge_distance[start_node][end_node] *= perturbation_factor\n\n    return updated_edge_distance",
+          "objective": 2.61658,
+          "other_inf": null
+     },
+     "parent4": {
+          "algorithm": "\nNew algorithm: Perturb the edge distances along the local optimal route by adding a random noise factor to each edge distance, the noise factor being a random value between -0.2 and 0.2, to increase the exploration space and escape from the local optimum.\n",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n    \n    for i in range(len(local_opt_tour) - 1):\n        start_node = local_opt_tour[i]\n        end_node = local_opt_tour[i + 1]\n        edge_index = edge_n_used[start_node][end_node]\n        noise_factor = np.random.uniform(-0.2, 0.2)  # Add random noise to the edge distance\n        updated_edge_distance[start_node][end_node] += noise_factor\n    \n    return updated_edge_distance",
+          "objective": 0.47599,
+          "other_inf": null
+     },
+     "parent5": {
+          "algorithm": "\nNew algorithm: Modify the edge distances randomly along the local optimal route to escape from the local optimum and move towards a global optimum, by perturbing the distances of the edges used in the local optimal tour.\n\nCode:\nimport numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n    \n    for i in range(len(local_opt_tour) - 1):\n        start_node = local_opt_tour[i]\n        end_node = local_opt_tour[i + 1]\n        edge_index = edge_n_used[start_node][end_node]\n        perturbation_factor = np.random.uniform(0.9, 1.1)  # Randomly perturb the edge distance\n        updated_edge_distance[start_node][end_node] *= perturbation_factor\n    \n    return updated_edge_distance\n",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n\n    for i in range(len(local_opt_tour) - 1):\n        start_node = local_opt_tour[i]\n        end_node = local_opt_tour[i + 1]\n        perturbation_factor = np.random.uniform(0.9, 1.1)  # Randomly perturb the edge distance\n        updated_edge_distance[start_node][end_node] *= perturbation_factor\n\n    return updated_edge_distance",
+          "objective": 2.61658,
+          "other_inf": null
+     },
+     "offspring": {
+          "algorithm": "\nNew algorithm: Identify the edges in the local optimal tour that are used consecutively and update their distances in the edge distance matrix to encourage using different edges and exploring new paths.\n",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n    \n    for i in range(len(local_opt_tour) - 2):  # Exclude the last edge\n        current_edge = (local_opt_tour[i], local_opt_tour[i + 1])\n        next_edge = (local_opt_tour[i + 1], local_opt_tour[i + 2])\n        \n        if edge_n_used[current_edge[0]][current_edge[1]] > edge_n_used[next_edge[0]][next_edge[1]]:\n            updated_edge_distance[current_edge[0]][current_edge[1]] *= 1.1  # Encourage using different edges\n            updated_edge_distance[current_edge[1]][current_edge[0]] *= 1.1  # Update the reverse edge as well\n    \n    return updated_edge_distance",
+          "objective": 3.49348,
+          "other_inf": null
+     }
+}

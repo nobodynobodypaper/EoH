@@ -1,0 +1,20 @@
+{
+     "parent1": {
+          "algorithm": "\nThe algorithm idea is to identify edges that are commonly used in the local optimal tour and update the distance matrix by penalizing these edges based on their frequency of use. Then, sort the nodes based on the penalty to determine the top nodes to perturb in order to avoid being trapped in the local optimum tour.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    penalty = np.zeros(distance_matrix.shape)\n    for i in range(len(local_opt_tour) - 1):\n        start = local_opt_tour[i]\n        end = local_opt_tour[i + 1]\n        penalty[start][end] += 1\n        penalty[end][start] += 1\n    penalty = np.divide(penalty, edge_n_used, out=np.zeros_like(penalty), where=edge_n_used != 0)\n    new_distance_matrix = distance_matrix + penalty * edge_n_used\n    perturb_nodes = np.argsort(-penalty.sum(axis=1))\n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.474,
+          "first_obj": null
+     },
+     "parent2": {
+          "algorithm": "\nIdea: The new algorithm will identify the edges that are frequently used in the local optimal tour and calculate the potential impact of perturbing each node based on their neighboring edges. Then, it will update the distance matrix by adjusting the distances of the edges proportional to their usage and the potential impact of perturbing each node. Finally, it will sort the nodes based on the penalty and perturb impact to avoid being trapped in the local optimum tour and return the updated distance matrix and the sorted nodes to perturb, prioritizing nodes that will lead to minimized total distance.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    edges_usage = np.zeros(distance_matrix.shape)\n    for i in range(len(local_opt_tour) - 1):\n        start = local_opt_tour[i]\n        end = local_opt_tour[i + 1]\n        edges_usage[start][end] += 1\n        edges_usage[end][start] += 1\n    \n    perturb_impact = np.sum((1 / (edges_usage + 1)) * (distance_matrix - distance_matrix / (edges_usage + 1)), axis=1)\n    penalty = np.divide(edges_usage, (edge_n_used + 1), out=np.zeros_like(edges_usage), where=(edge_n_used + 1) != 0)\n    new_distance_matrix = distance_matrix + penalty * (edge_n_used + 1)\n    \n    perturb_nodes = np.argsort(-penalty.sum(axis=1) + perturb_impact)\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.373,
+          "first_obj": null
+     },
+     "offspring": {
+          "algorithm": "\nThe new algorithm idea is to identify nodes that are frequently used in the local optimum tour and calculate the potential impact of perturbing each node based on their neighboring nodes. Then, update the distance matrix by adjusting the distances of the edges proportional to their usage and the potential impact of perturbing each node. Finally, sort the nodes based on the penalty and perturb impact to avoid being trapped in the local optimum tour and return the updated distance matrix and the sorted nodes to perturb, prioritizing nodes that will lead to minimized total distance.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    nodes_usage = np.zeros(distance_matrix.shape[0])\n    for i in range(len(local_opt_tour) - 1):\n        current_node = local_opt_tour[i]\n        next_node = local_opt_tour[i + 1]\n        nodes_usage[current_node] += 1\n        nodes_usage[next_node] += 1\n    \n    perturb_impact = np.sum((1 / (nodes_usage + 1)) * (distance_matrix - distance_matrix / (nodes_usage + 1)), axis=1)\n    penalty = np.divide(nodes_usage, (edge_n_used + 1), out=np.zeros_like(nodes_usage), where=(edge_n_used + 1) != 0)\n    new_distance_matrix = distance_matrix + penalty * (edge_n_used + 1)\n    \n    perturb_nodes = np.argsort(-penalty + perturb_impact)\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 10000000000.0,
+          "first_obj": null
+     }
+}

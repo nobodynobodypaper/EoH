@@ -1,0 +1,14 @@
+{
+     "parent1": {
+          "algorithm": "Create a novel algorithm that updates the distance matrix by considering the weighted average of the normalized edge usage, the difference between the local and global optimum tours, and an element-wise product of edge usage and the difference between local and global optimum tours, and sorts the nodes based on the combination of maximum normalized edge usage and minimum distance from the global optimum tour.",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    combined_metric = (0.4 * (edge_n_used / np.max(edge_n_used))) + (0.3 * (local_opt_tour - global_opt_tour)) + (0.3 * (edge_n_used * (local_opt_tour - global_opt_tour)))\n    new_distance_matrix = distance_matrix + combined_metric\n    perturb_nodes = np.argsort(np.maximum(np.max(edge_n_used, axis=1), np.min(new_distance_matrix, axis=1)))\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.12262,
+          "other_inf": null
+     },
+     "offspring": {
+          "algorithm": "\nCreate a new algorithm that updates the distance matrix by considering the weighted sum of the normalized edge usage, the difference between the local and global optimum tours, and the element-wise product of edge usage and the difference between local and global optimum tours, and sorts the nodes based on the combination of maximum normalized edge usage and minimum distance from the global optimum tour.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    combined_metric = (0.5 * (edge_n_used / np.max(edge_n_used))) + (0.4 * (local_opt_tour - global_opt_tour)) + (0.1 * (edge_n_used * (local_opt_tour - global_opt_tour)))\n    new_distance_matrix = distance_matrix + combined_metric\n    perturb_nodes = np.argsort(np.maximum(np.max(edge_n_used, axis=1), np.min(new_distance_matrix, axis=1)))\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.08768,
+          "other_inf": null
+     }
+}

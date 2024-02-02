@@ -1,0 +1,14 @@
+{
+     "parent1": {
+          "algorithm": "New algorithm: Update the edge distances by adjusting them based on the frequency of edge usage in the local optimal tour, incorporating a unique combination of mutation and scaling factors to encourage exploration and improvement in search for a better solution.",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n    \n    edge_count = np.zeros_like(edge_distance)\n    for i in range(len(local_opt_tour) - 1):\n        start = local_opt_tour[i]\n        end = local_opt_tour[i + 1]\n        edge_count[start][end] += 1\n        edge_count[end][start] += 1\n    \n    mean_edge_distance = np.mean(edge_distance)\n\n    for i in range(edge_distance.shape[0]):\n        for j in range(edge_distance.shape[1]):\n            if edge_count[i][j] > 0:\n                mutation_factor = np.random.uniform(0.5, 1.5) / edge_count[i][j]  # Unique mutation factor calculation\n                scaling_factor = (edge_count[i][j] / mean_edge_distance) * np.sqrt(max(edge_n_used[i][j], 1))  # Unique scaling factor calculation\n                updated_edge_distance[i][j] += mutation_factor + scaling_factor\n\n    return updated_edge_distance",
+          "objective": 0.40003,
+          "other_inf": null
+     },
+     "offspring": {
+          "algorithm": "New algorithm: Update the edge distances by adjusting them based on the frequency of edge usage in the local optimal tour, incorporating a different combination of mutation and scaling factors to encourage more exploration and improvement in search for a better solution.",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n    \n    edge_count = np.zeros_like(edge_distance)\n    for i in range(len(local_opt_tour) - 1):\n        start = local_opt_tour[i]\n        end = local_opt_tour[i + 1]\n        edge_count[start][end] += 1\n        edge_count[end][start] += 1\n    \n    mean_edge_distance = np.mean(edge_distance)\n\n    for i in range(edge_distance.shape[0]):\n        for j in range(edge_distance.shape[1]):\n            if edge_count[i][j] > 0:\n                mutation_factor = np.random.uniform(0.3, 1.7) / edge_count[i][j]\n                scaling_factor = (edge_count[i][j] / mean_edge_distance) * np.sqrt(max(edge_n_used[i][j], 1.5))\n                updated_edge_distance[i][j] += mutation_factor + scaling_factor\n\n    return updated_edge_distance",
+          "objective": 0.32099,
+          "other_inf": null
+     }
+}

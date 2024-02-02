@@ -1,0 +1,14 @@
+{
+     "parent1": {
+          "algorithm": "Create a new algorithm that updates the distance matrix based on a combination of edge usage and differences between local and global optimum tour, and then sorts the nodes using a unique scoring function for perturbation.",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    new_distance_matrix = distance_matrix + (edge_n_used * 2) - np.abs(local_opt_tour - global_opt_tour)\n    perturb_nodes = np.argsort(np.sum(new_distance_matrix, axis=1))  # Sort the nodes using a unique scoring function for perturbation\n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.14681,
+          "other_inf": null
+     },
+     "offspring": {
+          "algorithm": "\nNew Algorithm Description: Create a new algorithm that updates the distance matrix based on a combination of edge usage, differences between local and global optimum tour, and the proximity to other high-scored nodes, then sorts the nodes using a unique scoring function for perturbation.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    # Calculate the proximity to other high-scored nodes\n    proximity = np.dot(distance_matrix, distance_matrix.T)\n\n    # Update the distance matrix based on edge usage, differences between local and global optimum tour, and proximity\n    new_distance_matrix = distance_matrix + (edge_n_used * 2) - np.abs(local_opt_tour - global_opt_tour) + proximity\n\n    # Sort the nodes using a unique scoring function for perturbation\n    perturb_nodes = np.argsort(np.sum(new_distance_matrix, axis=1))  \n\n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.21584,
+          "other_inf": null
+     }
+}

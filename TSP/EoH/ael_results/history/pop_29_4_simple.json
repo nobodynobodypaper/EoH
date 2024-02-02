@@ -1,0 +1,14 @@
+{
+     "parent1": {
+          "algorithm": "Create a new algorithm that updates the distance matrix by taking the product of the difference between the normalized edge usage and the local-global optimum tour ratio, the square root of the distance matrix, and the natural logarithm of the average edge usage, then sort the nodes based on the maximum edge usage and minimum distance from the global optimum tour to determine the top nodes for perturbation.",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    edge_usage_difference = (edge_n_used / np.max(edge_n_used)) - (local_opt_tour / global_opt_tour)\n    sqrt_distance_matrix = np.sqrt(distance_matrix)\n    log_average_edge_usage = np.log(np.mean(edge_n_used, axis=1))\n\n    new_distance_matrix = edge_usage_difference * sqrt_distance_matrix * log_average_edge_usage\n    perturb_nodes = np.argsort(np.maximum(np.max(edge_n_used, axis=1), np.min(new_distance_matrix, axis=1)))\n\n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.46902,
+          "other_inf": null
+     },
+     "offspring": {
+          "algorithm": "Create a new algorithm that updates the distance matrix by taking the product of the difference between the normalized edge usage and the local-global optimum tour ratio, the square root of the distance matrix, and the natural logarithm of the average edge usage, then sort the nodes based on the maximum edge usage and minimum distance from the global optimum tour to determine the top nodes for perturbation.",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    edge_usage_difference = (edge_n_used / np.max(edge_n_used)) - (local_opt_tour / global_opt_tour)\n    sqrt_distance_matrix = np.sqrt(distance_matrix)\n    log_average_edge_usage = np.log(np.mean(edge_n_used, axis=1))\n\n    max_edge_n_used = np.max(edge_n_used, axis=1)\n    min_new_distance_matrix = np.min(sqrt_distance_matrix, axis=1)\n\n    new_distance_matrix = edge_usage_difference * sqrt_distance_matrix * log_average_edge_usage\n    perturb_nodes = np.argsort(np.maximum(max_edge_n_used, min_new_distance_matrix))\n\n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.24142,
+          "other_inf": null
+     }
+}

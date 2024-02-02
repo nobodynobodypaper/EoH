@@ -1,0 +1,14 @@
+{
+     "parent1": {
+          "algorithm": "Create a new algorithm that updates the distance matrix using a combination of the average edge usage, the difference between local and global optimum tours, and the standard deviation of edge usage, and then sorts the nodes based on the maximum edge usage and minimum distance from the global optimum tour to identify the top nodes for perturbation.",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    average_edge_usage = np.mean(edge_n_used, axis=1)\n    standard_deviation_edge_usage = np.std(edge_n_used, axis=1)\n    \n    new_distance_matrix = distance_matrix + (0.4 * average_edge_usage) + (0.3 * (local_opt_tour - global_opt_tour)) + (0.3 * standard_deviation_edge_usage)\n    \n    perturb_nodes = np.argsort(np.maximum(np.max(edge_n_used, axis=1), np.min(new_distance_matrix, axis=1)))\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.05931,
+          "other_inf": null
+     },
+     "offspring": {
+          "algorithm": "\nCreate a new algorithm that updates the distance matrix using a combination of the maximum edge usage, the difference between local and global optimum tours, and the standard deviation of edge usage, and then sorts the nodes based on the minimum edge usage and maximum distance from the global optimum tour to identify the top nodes for perturbation.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    maximum_edge_usage = np.max(edge_n_used, axis=1)\n    standard_deviation_edge_usage = np.std(edge_n_used, axis=1)\n    \n    new_distance_matrix = distance_matrix + (0.4 * maximum_edge_usage) + (0.3 * (local_opt_tour - global_opt_tour)) + (0.3 * standard_deviation_edge_usage)\n    \n    perturb_nodes = np.argsort(np.minimum(np.min(edge_n_used, axis=1), np.max(new_distance_matrix, axis=1)))\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 1.7687,
+          "other_inf": null
+     }
+}

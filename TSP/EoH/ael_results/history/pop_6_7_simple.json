@@ -1,0 +1,14 @@
+{
+     "parent1": {
+          "algorithm": "\nNew algorithm: Update the edge distances in the edge distance matrix by incorporating a novel heuristic that integrates the concept of dynamic edge weight adjustments based on the frequency of edge usage and the edge distance, while also considering the relationship with the adjacent edges to guide the exploration towards a more optimal solution.\n",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n\n    # Implement the new algorithm here\n    # ...\n    \n    return updated_edge_distance",
+          "objective": 3.49348,
+          "other_inf": null
+     },
+     "offspring": {
+          "algorithm": "\nNew algorithm: Update the edge distances in the edge distance matrix by incorporating a novel heuristic that integrates the concept of dynamic edge weight adjustments based on the frequency of edge usage and the edge distance, while also considering the relationship with the adjacent edges to guide the exploration towards a more optimal solution.\n",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n\n    # Implement the new algorithm here\n    # ...\n    \n    return updated_edge_distance",
+          "objective": 10000000000.0,
+          "other_inf": null
+     }
+}

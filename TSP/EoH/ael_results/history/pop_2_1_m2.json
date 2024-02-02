@@ -1,0 +1,14 @@
+{
+     "parent1": {
+          "algorithm": "\nNew algorithm: Identify the least frequently used edges in the local optimal tour and update their distances in the edge distance matrix to encourage exploration of different routes, while also randomizing the distances of non-participating edges to promote diversification in the search for a better solution.\n",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n    min_used_edge = np.argmin(edge_n_used)\n    for i in range(len(local_opt_tour)-1):\n        start = local_opt_tour[i]\n        end = local_opt_tour[i+1]\n        if edge_n_used[start][end] < np.mean(edge_n_used):  # Update distances of least frequently used edges\n            updated_edge_distance[start][end] *= (1 - edge_n_used[start][end]/min_used_edge)\n            updated_edge_distance[end][start] *= (1 - edge_n_used[end][start]/min_used_edge)\n        else:  # Randomly perturb the distances of non-participating edges\n            perturbation_factor = np.random.uniform(0.9, 1.1)\n            updated_edge_distance[start][end] *= perturbation_factor\n            updated_edge_distance[end][start] *= perturbation_factor\n    return updated_edge_distance",
+          "objective": 2.67133,
+          "other_inf": null
+     },
+     "offspring": {
+          "algorithm": "\nNew algorithm: Identify the edges with the highest weight in the local optimal tour and update their distances in the edge distance matrix to encourage exploration of different routes, while also adjusting the distances of participating edges based on their usage frequency to promote diversification in the search for a better solution.\n",
+          "code": "import numpy as np\n\ndef update_edge_distance(edge_distance, local_opt_tour, edge_n_used):\n    updated_edge_distance = np.copy(edge_distance)\n    max_used_edge = np.argmax(edge_n_used)\n    for i in range(len(local_opt_tour)-1):\n        start = local_opt_tour[i]\n        end = local_opt_tour[i+1]\n        if edge_n_used[start][end] < np.mean(edge_n_used):\n            updated_edge_distance[start][end] *= (1 - edge_n_used[start][end]/max_used_edge)\n            updated_edge_distance[end][start] *= (1 - edge_n_used[end][start]/max_used_edge)\n        else:\n            perturbation_factor = np.random.uniform(0.9, 1.1)\n            updated_edge_distance[start][end] *= perturbation_factor\n            updated_edge_distance[end][start] *= perturbation_factor\n    return updated_edge_distance",
+          "objective": 2.75043,
+          "other_inf": null
+     }
+}

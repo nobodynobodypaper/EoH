@@ -1,0 +1,20 @@
+{
+     "parent1": {
+          "algorithm": "\nThe new algorithm idea is to calculate the improvement in distance for each possible edge swap between the local optimal tour and the global optimal tour. The main steps include identifying the edges in the local optimal tour that can be swapped to improve the total distance, calculating the improvement in distance for each possible edge swap, and updating the distance matrix based on the calculated improvement. Finally, sort the nodes based on the improvement to determine the top nodes to perturb in order to avoid being trapped in the local optimum tour.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    improvement = np.zeros(distance_matrix.shape)\n    for i in range(len(local_opt_tour) - 1):\n        for j in range(len(global_opt_tour) - 1):\n            if local_opt_tour[i] != global_opt_tour[j] and local_opt_tour[i+1] != global_opt_tour[j+1]:\n                current_dist = distance_matrix[local_opt_tour[i], local_opt_tour[i+1]] + distance_matrix[global_opt_tour[j], global_opt_tour[j+1]]\n                new_dist = distance_matrix[local_opt_tour[i], global_opt_tour[j]] + distance_matrix[local_opt_tour[i+1], global_opt_tour[j+1]]\n                improvement[local_opt_tour[i], local_opt_tour[i+1]] += (current_dist - new_dist)\n    new_distance_matrix = distance_matrix - improvement\n    perturb_nodes = np.argsort(-improvement.sum(axis=1))\n    return new_distance_matrix, perturb_nodes",
+          "objective": 3.428,
+          "first_obj": null
+     },
+     "parent2": {
+          "algorithm": "\nThe algorithm will first update the distance matrix based on the local optimal tour, global optimal tour, and the number of times each edge is used. Then, it will sort the nodes based on some heuristic to provide the top nodes to perturb in order to avoid being trapped in the local optimum tour.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    # Update distance matrix\n    new_distance_matrix = distance_matrix * (1 + edge_n_used)\n    \n    # Sort nodes based on some heuristic\n    perturb_nodes = np.argsort(np.sum(new_distance_matrix, axis=1))\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 1.56,
+          "first_obj": null
+     },
+     "offspring": {
+          "algorithm": "\n\nAlgorithm description: \nThe new algorithm idea is to create a new distance matrix based on the local optimal tour, global optimal tour, and number of times each edge is used. Then, it will identify the most critical nodes to perturb based on the edges with the highest usage in the updated distance matrix. In contrast to the previous algorithms, this approach aims to prioritize perturbation based on the impact of edge usage on the distance matrix.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    # Create new distance matrix based on local optimal tour, global optimal tour, and edge usage\n    new_distance_matrix = distance_matrix * (1 + edge_n_used)\n\n    # Identify perturb nodes based on edges with highest usage in updated distance matrix\n    perturb_nodes = np.argsort(-edge_n_used.sum(axis=1))\n\n    return new_distance_matrix, perturb_nodes",
+          "objective": 1.326,
+          "first_obj": null
+     }
+}

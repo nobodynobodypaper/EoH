@@ -1,0 +1,14 @@
+{
+     "parent1": {
+          "algorithm": "\nNew algorithm: Calculate the updated distance matrix by combining edge usage and the difference between local and global optimum tours, and then sort the nodes based on a different formula to identify top nodes for perturbation, with the final goal of finding a tour with minimized total distance.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    edge_usage_score = 0.5 * edge_n_used\n    unique_score = local_opt_tour - global_opt_tour\n    initial_distance_score = distance_matrix\n\n    new_distance_matrix = initial_distance_score + edge_usage_score + unique_score\n    \n    max_edge_usage = np.max(edge_n_used, axis=1)\n    min_global_distance = np.min(new_distance_matrix, axis=1)\n    perturb_nodes = np.argsort(max_edge_usage + min_global_distance)\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.06267,
+          "other_inf": null
+     },
+     "offspring": {
+          "algorithm": "\nNew algorithm: Calculate the updated distance matrix by combining edge usage and the difference between local and global optimum tours, and then sort the nodes based on a different formula to identify top nodes for perturbation, with the final goal of finding a tour with minimized total distance.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    edge_usage_score = 0.75 * edge_n_used\n    unique_score = global_opt_tour - local_opt_tour\n    initial_distance_score = distance_matrix\n\n    new_distance_matrix = initial_distance_score + edge_usage_score + unique_score\n    \n    max_edge_usage = np.max(edge_n_used, axis=1)\n    min_global_distance = np.min(new_distance_matrix, axis=1)\n    perturb_nodes = np.argsort(max_edge_usage - min_global_distance)\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.07638,
+          "other_inf": null
+     }
+}

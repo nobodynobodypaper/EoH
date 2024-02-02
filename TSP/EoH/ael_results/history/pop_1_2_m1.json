@@ -1,0 +1,14 @@
+{
+     "parent1": {
+          "algorithm": "\nCreate a new algorithm to update the distance matrix and sort the top nodes to perturb by dynamically adjusting the distance matrix based on the local optimum tour and global optimum tour, then identifying the nodes with the highest impact for perturbation and sorting them based on the impact.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    # Update the distance matrix based on the local optimum tour and edge usage dynamically\n    new_distance_matrix = distance_matrix * (1 + 0.1 * (global_opt_tour - local_opt_tour))\n    # Identify the nodes with the highest impact for perturbation and sort them\n    perturb_nodes = np.argsort(global_opt_tour - local_opt_tour)[::-1]\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 3.49348,
+          "other_inf": null
+     },
+     "offspring": {
+          "algorithm": "\nCreate a new algorithm to update the distance matrix and sort the top nodes to perturb by dynamically adjusting the distance matrix based on the local optimum tour, edge usage, and number of times each edge is used, then identifying the nodes with the highest impact for perturbation and sorting them based on the impact.\n",
+          "code": "import numpy as np\n\ndef get_matrix_and_nodes(distance_matrix, local_opt_tour, global_opt_tour, edge_n_used):\n    # Update the distance matrix based on the local optimum tour, edge usage, and number of times each edge is used\n    new_distance_matrix = distance_matrix * (1 + 0.1 * (global_opt_tour - local_opt_tour) + 0.05 * edge_n_used)\n    # Identify the nodes with the highest impact for perturbation and sort them\n    perturb_nodes = np.argsort(global_opt_tour - local_opt_tour)[::-1]\n    \n    return new_distance_matrix, perturb_nodes",
+          "objective": 0.27913,
+          "other_inf": null
+     }
+}
